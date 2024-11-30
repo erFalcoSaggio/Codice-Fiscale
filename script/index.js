@@ -26,7 +26,7 @@ function calculate(event) {
     let month = document.getElementById('month').value;
     let year = document.getElementById('year').value;
     let sex = document.getElementById('sex').value;
-    let bornPlace = document.getElementById('born-place')
+    let bornPlace = document.getElementById('born-place').value;
 
     // verifichiamo si veda tutto correttamente
     console.log(`${lastName} ${name} ${day} ${month} ${year} ${sex} ${bornPlace}`)
@@ -52,6 +52,8 @@ function calculate(event) {
         let dayCode = calculateDay(day, sex, month, year);
         console.log(dayCode);
 
+    // qua per la funzione del comune (ne ho messi solo alcuni)
+    calculateBornPlace(bornPlace);
 }
 // --------------- //
 function calculateLastName(lastName) {
@@ -285,5 +287,36 @@ function calculateDay(day, sex, month, year) {
     // console.log(dayCode) 
     return dayCode;
 }
+// --------------- //
+function calculateBornPlace(bornPlace) {
+    let bornPlaceCode = [];
+    let placeCode;
+    
+    // faccio uno switch
+    switch (bornPlace) {
+        case 'VR':
+            placeCode = 'L781';
+            break;
+        case 'VV':
+            placeCode = 'F537';
+            break;
+        case 'VI':
+            placeCode = 'L840';
+            break;
+        case 'VT':
+            placeCode = 'M082';
+            break;
+        default:
+            alert('Errore nel calcolo del codice per il comune!');
+            return;
+    }
 
+    // verifico che un placeCode esista
+    if (placeCode) {
+        for (let i = 0; i < placeCode.length; i++) {
+            bornPlaceCode.push(placeCode[i]);
+        }
+        console.log(bornPlaceCode);
+    }
+}
 
