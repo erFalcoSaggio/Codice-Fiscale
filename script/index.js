@@ -1,5 +1,15 @@
 // array consonanti
 const consonant = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
+// array tutte le lettere
+const allLetters = [
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+    'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+];
+// array i valori per lettere nel Check Digit
+const lettersValues = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26
+];
+
 // funzione per l'anno bisestile
 function annoBisesto(year) {
     if (year % 4 === 0) {
@@ -53,7 +63,20 @@ function calculate(event) {
         console.log(dayCode);
 
     // qua per la funzione del comune (ne ho messi solo alcuni)
-    calculateBornPlace(bornPlace);
+    let bornPlaceCode = calculateBornPlace(bornPlace);
+    console.log(bornPlaceCode);
+
+    // unisco tutto
+    let allCodes = [...lastNameCode, ...nameCode, ...yearCode, ...monthCode, ...dayCode, ...bornPlaceCode].join('');
+    console.log(allCodes);
+    
+    // ultimo passaggio ==> check digit
+    let checkDigitCode = checkDigit(allCodes);
+    console.log(checkDigitCode);
+
+    // unione finale (scrivo il nome in italiano perchè mi piace così)
+    let codiceFiscale = [...allCodes, ...checkDigitCode].join('');
+    console.log(codiceFiscale)
 }
 // --------------- //
 function calculateLastName(lastName) {
@@ -316,7 +339,48 @@ function calculateBornPlace(bornPlace) {
         for (let i = 0; i < placeCode.length; i++) {
             bornPlaceCode.push(placeCode[i]);
         }
-        console.log(bornPlaceCode);
     }
+    // console.log(bornPlaceCode);
+    return bornPlaceCode;
 }
+// --------------- //
+function checkDigit(allCodes) {
+    // Tabelle di conversione
+    const tabellaC = {
+        'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9,
+        'K': 10, 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18,
+        'T': 19, 'U': 20, 'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25,
+        '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9
+    };
+    
+    const tabellaD = {
+        'A': 1, 'B': 0, 'C': 5, 'D': 7, 'E': 9, 'F': 13, 'G': 15, 'H': 17, 'I': 19, 'J': 21,
+        'K': 2, 'L': 4, 'M': 18, 'N': 20, 'O': 11, 'P': 3, 'Q': 6, 'R': 8, 'S': 12, 'T': 14,
+        'U': 16, 'V': 10, 'W': 22, 'X': 25, 'Y': 24, 'Z': 23,
+        '0': 1, '1': 0, '2': 5, '3': 7, '4': 9, '5': 13, '6': 15, '7': 17, '8': 19, '9': 21
+    };
+    
+    const tabellaE = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
+    // Somma ponderata dei caratteri
+    let somma = 0;
+
+    // Elaborazione dei primi 15 caratteri
+    for (let i = 0; i < 15; i++) {
+        let char = allCodes[i];
+        if (i % 2 === 0) { // Posizioni dispari (1, 3, 5, ..., 15)
+            somma += tabellaD[char];
+        } else { // Posizioni pari (2, 4, 6, ..., 14)
+            somma += tabellaC[char];
+        }
+    }
+
+    // Calcolo del resto della divisione per 26
+    let resto = somma % 26;
+
+    // Restituzione del carattere di controllo
+    // console.log(tabellaE[resto]); ==> teoricamente funziona
+    checkDigitCode = tabellaE[resto];
+
+    return checkDigitCode;
+}
