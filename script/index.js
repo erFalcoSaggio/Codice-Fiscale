@@ -77,6 +77,8 @@ function calculate(event) {
     // unione finale (scrivo il nome in italiano perchè mi piace così)
     let codiceFiscale = [...allCodes, ...checkDigitCode].join('');
     console.log(codiceFiscale)
+
+    document.getElementById('ris').innerText = codiceFiscale;
 }
 // --------------- //
 function calculateLastName(lastName) {
