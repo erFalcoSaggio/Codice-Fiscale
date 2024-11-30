@@ -22,6 +22,10 @@ function calculate(event) {
     // chiamo la funzione "calculateName"
     let nameCode = calculateName(name);
     console.log(nameCode);
+
+    // qui sotto faccio i calcoli per data di nascita
+    let yearCode = calculateYear(year);
+    console.log(yearCode);
 }
 // --------------- //
 function calculateLastName(lastName) {
@@ -128,4 +132,15 @@ function calculateName(name) {
         }
     }
     return nameCode;
+}
+// --------------- //
+function calculateYear(year) {
+    let yearCode = [];
+    // console.log(year[year.length - 2] + year[year.length - 1]) // => questo metodo funziona
+    // inizializzo a 1 così mi sono più semplici i calcoli e lo decremento per prendere prima il PENultimo numero dell'anno
+    for (let i = 2; i > 0; i--) {
+        yearCode.push(year[year.length - i]);
+    }
+    // console.log(yearCode);
+    return yearCode;
 }
