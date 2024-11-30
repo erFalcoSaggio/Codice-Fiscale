@@ -1,6 +1,22 @@
 // array consonanti
 const consonant = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
-
+// funzione per l'anno bisestile
+function annoBisesto(year) {
+    if (year % 4 === 0) {
+      if (year % 100 === 0) {
+        if (year % 400 === 0) {
+          return true; // bisestile
+        } else {
+          return false; // non bisestile
+        }
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
+}
+// funzione principale
 function calculate(event) {
     event.preventDefault(); // non riaggiorno la pagina
 
@@ -31,6 +47,10 @@ function calculate(event) {
         // mese di nascita
         let monthCode = calculateMonth(month);
         console.log(monthCode);
+
+        // giorno di nascita (serve anche il sesso e il mese e anno per calcolare gli anni bisestili)
+        let dayCode = calculateDay(day, sex, month, year);
+        console.log(dayCode);
 
 }
 // --------------- //
@@ -156,6 +176,7 @@ function calculateMonth(month) {
     // piccolo controllo
     if (month === 'null-month') {
         alert('Mese non valido. Riprova!');
+        return;
     }
 
     // uso uno switch per assegnare tutte le lettere
@@ -206,3 +227,63 @@ function calculateMonth(month) {
     // console.log(monthCode);
     return monthCode;
 }
+// --------------- //
+function calculateDay(day, sex, month, year) {
+    let dayCode = [];
+    // piccolo controllo
+    if (day === 'null-day') {
+        alert('Giorno non valido. Riprova!');
+        return;
+    }
+   
+    // faccio tutti i controlli per i vari mesi (parto da quelli con 30 giorni)
+    if (month === 'apr' || month === 'giu' || month === 'set' || month === 'nov') {
+        // non possono avere più di 30 giorni (escluso)
+        if (day > 30) {
+            alert(`Non esistono ${day} giorni a ${month}`);
+            return;
+        }
+    }
+    // ora per febbraio
+    if (month === 'feb') {
+        let annoBisestoValue = annoBisesto(year);
+        // automaticamente controlla se è vero
+        if (annoBisestoValue) {
+            // controlla che siano massimo 29 giorni
+            if (day > 29) {
+                alert(`Non esistono ${day} giorni a ${month} nel ${year}`); // piccolo alert di errore per far capire (spero)
+                return;
+            }
+        } 
+        // anno non bisestile
+        else {
+            if (day > 28) {
+                alert(`Non esistono ${day} giorni a ${month} nel ${year}`); // piccolo alert di errore per far capire (spero)
+                return;
+            }
+        }
+    }
+
+    // parseInto il valore, lo rendo numero
+    // ora parto a controllare il sesso
+    if (sex === 'male') {
+        for (let i = 0; i < day.length; i++) {
+            dayCode.push(day[i]);
+        }
+    }
+
+    // il sesso è femmina
+    else {
+        day = parseInt(day);
+        day += 40;
+        // console.log(day);
+        day = day.toString(); // => rimetto in stringa
+        for (let j = 0; j < day.length; j++) {
+            dayCode.push(day[j]);
+        }   
+    }  
+    // console.log(dayCode) 
+    return dayCode;
+}
+
+
