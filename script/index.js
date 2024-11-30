@@ -24,8 +24,14 @@ function calculate(event) {
     console.log(nameCode);
 
     // qui sotto faccio i calcoli per data di nascita
-    let yearCode = calculateYear(year);
-    console.log(yearCode);
+        // anno di nascita
+        let yearCode = calculateYear(year);
+        console.log(yearCode);
+        
+        // mese di nascita
+        let monthCode = calculateMonth(month);
+        console.log(monthCode);
+
 }
 // --------------- //
 function calculateLastName(lastName) {
@@ -143,4 +149,60 @@ function calculateYear(year) {
     }
     // console.log(yearCode);
     return yearCode;
+}
+// --------------- //
+function calculateMonth(month) {
+    let monthCode = [];
+    // piccolo controllo
+    if (month === 'null-month') {
+        alert('Mese non valido. Riprova!');
+    }
+
+    // uso uno switch per assegnare tutte le lettere
+    switch (month) {
+        case 'gen':
+            monthChar = 'A';
+            break;
+        case 'feb':
+            monthChar = 'B';
+            break;
+        case 'mar':
+            monthChar = 'C';
+            break;
+        case 'apr':
+            monthChar = 'D';
+            break;
+        case 'mag':
+            monthChar = 'E';
+            break;
+        case 'giu':
+            monthChar = 'H';
+            break;
+        case 'lug':
+            monthChar = 'L';
+            break;
+        case 'ago':
+            monthChar = 'M';
+            break;
+        case 'set':
+            monthChar = 'P';
+            break;
+        case 'ott':
+            monthChar = 'R';
+            break;
+        case 'nov':
+            monthChar = 'S';
+            break;
+        case 'dic':
+            monthChar = 'T';
+            break; 
+        default:
+            alert('Errore nell\ assegnazione del codice per il mese!')
+            break;
+    }
+    // pusho il codice
+    monthCode.push(monthChar);
+
+    // console.log(monthCode);
+    return monthCode;
 }
