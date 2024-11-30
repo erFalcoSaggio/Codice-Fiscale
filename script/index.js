@@ -18,6 +18,10 @@ function calculate(event) {
     // chiamo la funzione "calculateLastName"
     let lastNameCode = calculateLastName(lastName);
     console.log(lastNameCode)
+    
+    // chiamo la funzione "calculateName"
+    let nameCode = calculateName(name);
+    console.log(nameCode);
 }
 // --------------- //
 function calculateLastName(lastName) {
@@ -62,4 +66,66 @@ function calculateLastName(lastName) {
         }
     }
     return lastNameCode;
+}
+// --------------- //
+function calculateName(name) {
+    let nameCode = [];
+    let consonantArray = []; // mi serve un array per salvare le consonanti e (nel caso fossero più di quattro) saltare la seconda
+    // converto in maiuscolo
+    name = name.toUpperCase();
+
+    // aggiungo la o le X
+    if (name.length < 3) {
+        for (let k = 0; k < name.length; k++) {
+            nameCode.push(name[k]);
+        }
+        while (nameCode.length != 3) {
+            nameCode.push('X');
+        }
+    }
+
+    // conto le consonanti
+    for (let i = 0; i < name.length; i++) {
+        if (consonant.includes(name[i])) {
+            consonantArray.push(name[i]);
+        }
+    }
+
+    // tutte le condizioni principali
+    if (consonantArray.length < 3) {
+        for (let j = 0; j < name.length; j++) {
+            if (consonant.indexOf(name[j]) != -1) {
+                nameCode.push(name[j]);
+            }
+        }
+    }
+
+    // metto la condizione per capirmi meglio
+    else if (consonantArray.length >= 4) {
+        for (let h = 0; h < consonantArray.length; h++) {
+            // metto la condizione per saltare la seconda consonante
+            // prima verifico che l'if venga eseguito solo se il codice è INCOMPLETO
+            // h != 1 => è come se scrivessi è diverso da 2
+            if (nameCode.length < 3 && h != 1) {
+                if (consonant.indexOf(consonantArray[h]) != -1) {
+                    nameCode.push(consonantArray[h]);
+                }
+            }
+        }
+    }
+
+    // controllo che il codice del cognome sia solo di 3 caratteri
+    if (nameCode.length === 3) {
+        console.log('Ok');
+    } else {
+        for (let k = 0; k < name.length; k++) {
+            if (nameCode.length < 3) {
+                // in questo caso inizio a prendere le vocali
+                if (consonant.indexOf(name[k]) === -1) {
+                    nameCode.push(name[k]);
+                }
+            }
+        }
+    }
+    return nameCode;
 }
