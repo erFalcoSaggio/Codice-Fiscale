@@ -1,3 +1,5 @@
+// © Falcari Alessandro 2024
+
 // array consonanti
 const consonant = ['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'];
 // array tutte le lettere
