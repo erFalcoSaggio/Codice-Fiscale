@@ -159,6 +159,17 @@ function calculateName(name) {
         }
     }
 
+    // se le consonanti sono uguali a 3
+    else if (consonantArray.length === 3) {
+        for (let h = 0; h < consonantArray.length; h++) {
+            // metto la condizione per saltare la seconda consonante
+            // prima verifico che l'if venga eseguito solo se il codice è INCOMPLETO
+            if (consonant.indexOf(consonantArray[h]) != -1) {
+                nameCode.push(consonantArray[h]);
+            }
+        }
+    }
+
     // metto la condizione per capirmi meglio
     else if (consonantArray.length >= 4) {
         for (let h = 0; h < consonantArray.length; h++) {
